@@ -10,7 +10,7 @@ const addDepartureTimes = require('./serverDataUtils').addDepartureTimes
 app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')))
 
-function loadFlights(day) {
+function loadFlights(day,tzOffset) {
     return (
         csvtojson()
             .fromFile(
@@ -21,7 +21,7 @@ function loadFlights(day) {
             )
             // Add departure times to each flight
             .then((flights) => {
-                return sortBy(addDepartureTimes(flights, day), 'departureTime')
+                return sortBy(addDepartureTimes(flights, day, tzOffset), 'departureTime')
             })
             .catch((error) => console.log(error))
     )
@@ -29,7 +29,7 @@ function loadFlights(day) {
 
 app.get('/flights', function (req, res) {
     return loadFlights(
-        req.query && !isNil(req.query.day) ? parseInt(req.query.day) : undefined
+        req.query && !isNil(req.query.day) ? parseInt(req.query.day) : undefined, req.query?.tzOffset
     ).then((flights) => res.send(flights))
 })
 

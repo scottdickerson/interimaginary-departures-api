@@ -1,16 +1,18 @@
-const moment = require('moment')
+const moment = require('moment-timezone')
 const sortBy = require('lodash/sortBy')
 const departureOffsets = require('./data/weeklyDepartureOffsets')
 
-function addDepartureTimes(flights, day = moment().day(), flightsInADay = 326) {
-    console.log(`day to load: ${day}`)
+function addDepartureTimes(flights, day = moment().day(), timezoneString="America/Chicago",flightsInADay = 326) {
+    console.log(`day to load: ${day}`);
+    console.log(`tzoffset to load: ${timezoneString}`)
     flights = sortBy(flights, 'Location Name')
-    const today = moment()
+    const today = moment().tz(timezoneString);
     // set the start time for flights to 5:00 am in the morning
     today.hour(5)
     today.minute(0)
     today.second(0)
     today.millisecond(0)
+    console.log(`starting at epoch ${today.valueOf()} from this date and time: `,today.format('LLL'));
     let offsets = departureOffsets.sunday
     switch (day) {
         case 0:
