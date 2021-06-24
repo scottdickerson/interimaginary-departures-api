@@ -11,12 +11,15 @@ Use this URL to view the api locally:
 
 ## Running in your local docker
 
-`docker build -t interimaginary:FIDS .`
-`docker run interimaginary:FIDS`
+`docker build -t interimaginary:api .`
+`docker run -p 8080:8080 interimaginary:api`
 
 ## Deploying to heroku (deploys the static app not the container)
 
 `heroku login`
-`git remote add heroku https://git.heroku.com/radiant-spire-33199.git`
+`git remote add heroku https://git.heroku.com/still-fjord-81783.git`
 `git push heroku main`
 `heroku open`
+
+Viewing the API in the heroku container:
+<https://still-fjord-81783.herokuapp.com/>
